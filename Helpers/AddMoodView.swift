@@ -7,13 +7,9 @@
 
 import SwiftUI
 
-struct MoodSheetView: View {
-    var date: Date
-    
-    @Binding var moodLog: [Date: [String]]
+struct AddMoodView: View {
     @Environment(\.dismiss) var dismiss
-//    @Environment(\.presentationMode) var presentationMode
-    
+        
     @State private var morningMood: String = ""
     @State private var noonMood: String = ""
     @State private var eveningMood: String = ""
@@ -22,19 +18,23 @@ struct MoodSheetView: View {
     
     var body: some View {
         VStack {
-            Text("Select Moods for \(date, formatter: DateFormatter())")
+            Spacer()
+            Text("Select Moods for \(Date.now, formatter: DateFormatter())")
                 .font(SetFont.setFontStyle(.medium, 20))
                 .padding()
-            
+            Spacer()
             MoodPicker(title: "Morning", selection: $morningMood, options: moodOptions)
+            Spacer()
             MoodPicker(title: "Noon", selection: $noonMood, options: moodOptions)
+            Spacer()
             MoodPicker(title: "Evening", selection: $eveningMood, options: moodOptions)
+            Spacer()
             
             Button("Save") {
-                moodLog[Calendar.current.startOfDay(for: date)] = [morningMood, noonMood, eveningMood].filter { !$0.isEmpty }
                 dismiss()
-            }
+                }
             .padding()
+            Spacer()
         }
         .padding()
     }
@@ -65,9 +65,6 @@ struct MoodPicker: View {
 struct MoodSheetView_Previews: PreviewProvider {
     static var previews: some View {
         // Creating a mock mood log and a date for the preview
-        MoodSheetView(
-            date: Date(),
-            moodLog: .constant([Date(): ["Happy", "Relaxed"]])
-        )
+        AddMoodView()
     }
 }
