@@ -8,20 +8,29 @@
 import SwiftUI
 import SwiftData
 
-//@Model
-//class MoodItem {
-//    
-//    @Relationship(deleteRule: .cascade) var id: UUID = UUID()
-//    var date: Date = Date()
-//    var morningMood: String?
-//    var noonMood: String?
-//    var eveningMood: String?
-//    
-//    init(id: UUID, date: Date, morningMood: String? = nil, noonMood: String? = nil, eveningMood: String? = nil) {
-//        self.id = id
+@Model
+class MoodItem {
+    @Relationship(deleteRule: .cascade) var date: Date
+    var morningMood: String
+//    var afternoonMood: String
+//    var eveningMood: String
+    var morningColor: String
+//    var afternoonColor: String
+//    var eveningColor: String
+    
+    init(date: Date, morningMood: String, morningColor: String) {
+        self.date = date
+        self.morningMood = morningMood
+        self.morningColor = morningColor
+    }
+    
+//    init(date: Date = Date(), morningMood: String = "", afternoonMood: String = "", eveningMood: String = "", morningColor: String = "", afternoonColor: String = "", eveningColor: String = "") {
 //        self.date = date
 //        self.morningMood = morningMood
-//        self.noonMood = noonMood
+//        self.afternoonMood = afternoonMood
 //        self.eveningMood = eveningMood
+//        self.morningColor = morningColor
+//        self.afternoonColor = afternoonColor
+//        self.eveningColor = eveningColor
 //    }
-//}
+}

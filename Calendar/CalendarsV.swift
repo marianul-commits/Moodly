@@ -11,10 +11,10 @@ struct CalendarsV: View {
     @ObservedObject var moodModelController: MoodModelController
     let startDate: Date
     let monthsToDisplay: Int
-    var selectableDays = true
+    var selectableDays = false
     
 
-    init(start: Date, monthsToShow: Int, daysSelectable: Bool = true, moodController: MoodModelController) {
+    init(start: Date, monthsToShow: Int, daysSelectable: Bool = false, moodController: MoodModelController) {
     self.startDate = start
     self.monthsToDisplay = monthsToShow
     self.selectableDays = daysSelectable
@@ -33,13 +33,13 @@ struct CalendarsV: View {
                 }
             }
             Spacer()
-        }.padding().navigationBarTitle("Mood Calendar", displayMode: .inline)
+        }
     }
 
     func nextMonth(currentMonth: Date, add: Int) -> Date {
         var components = DateComponents()
         components.month = add
-        let next = CalendarsV.current.date(byAdding: components, to: currentMonth)!
+        let next = Calendar.current.date(byAdding: components, to: currentMonth)!
         return next
     }
 

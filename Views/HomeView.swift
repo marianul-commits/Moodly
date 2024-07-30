@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         VStack {
             ZStack {
@@ -31,7 +34,7 @@ struct HomeView: View {
                 VStack { // Used for nesting the White Rounded Rectangles
                     ZStack {
                         RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
-                            .foregroundStyle(.brandWhite)
+                            .foregroundStyle(colorScheme == .dark ? .brandGray : .brandWhite )
                             .frame(width: UIScreen.main.bounds.width - 50, height: 100)
                             .shadow(color: .black.opacity(0.2), radius: 3, x: 2.5, y: 5)
                         
@@ -86,7 +89,7 @@ struct HomeView: View {
                     
                     ZStack {
                         RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
-                            .foregroundStyle(.brandWhite)
+                            .foregroundStyle(colorScheme == .dark ? .brandGray.opacity(0.7) : .brandWhite )
                             .frame(width: UIScreen.main.bounds.width - 50, height: 170)
                             .padding(.vertical, 10)
                             .shadow(color: .black.opacity(0.2), radius: 3, x: 2.5, y: 5)
@@ -125,7 +128,7 @@ struct HomeView: View {
                     }
                     ZStack{
                         RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
-                            .foregroundStyle(.brandWhite)
+                            .foregroundStyle(colorScheme == .dark ? .brandGray.opacity(0.7) : .brandWhite )
                             .frame(width: UIScreen.main.bounds.width - 50, height: 100)
                             .shadow(color: .black.opacity(0.2), radius: 3, x: 2.5, y: 5)
                         VStack{
@@ -137,10 +140,10 @@ struct HomeView: View {
                                     .padding()
                             }
                             Text("Add an entry for today")
+                                .foregroundStyle(.black)
                         }
                     }
                 }
-                .offset(y: -50)
                 .zIndex(1)
             }
         }

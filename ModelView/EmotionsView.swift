@@ -7,9 +7,13 @@
 
 import SwiftUI
 
+class EmotionsViewModel: ObservableObject {
+    @Published var selectedEmotions = [String]()
+    @Published var selectedSphere = [String]()
+}
+
 struct EmotionsView: View {
-    @State var selectedEmotions = [String]()
-    @State var selectedSphere = [String]()
+    @ObservedObject var viewModel = EmotionsViewModel()
     
     let emotions = [
         ["Excited", "Relaxed", "Proud", "Hopeful"],
@@ -48,16 +52,16 @@ struct EmotionsView: View {
                                 .padding(.vertical, 15)
                                 .padding(.horizontal, 10)
                                 .font(SetFont.setFontStyle(.regular, 12))
-                                .background(selectedEmotions.contains(emotion) ? Color.brandPrimary : Color.gray.opacity(0.2))
+                                .background(viewModel.selectedEmotions.contains(emotion) ? Color.brandPrimary : Color.gray.opacity(0.2))
                                 .cornerRadius(15)
-                                .scaleEffect(selectedEmotions.contains(emotion) ? 1.1 : 1.0) // Slightly larger when selected
-                                .offset(x: selectedEmotions.contains(emotion) ? 5 : 0) // Jiggle effect
+                                .scaleEffect(viewModel.selectedEmotions.contains(emotion) ? 1.1 : 1.0) // Slightly larger when selected
+                                .offset(x: viewModel.selectedEmotions.contains(emotion) ? 5 : 0) // Jiggle effect
                                 .onTapGesture {
                                     withAnimation {
-                                        if let index = selectedEmotions.firstIndex(of: emotion) {
-                                            selectedEmotions.remove(at: index)
+                                        if let index = viewModel.selectedEmotions.firstIndex(of: emotion) {
+                                            viewModel.selectedEmotions.remove(at: index)
                                         } else {
-                                            selectedEmotions.append(emotion)
+                                            viewModel.selectedEmotions.append(emotion)
                                         }
                                     }
                                 }
@@ -86,17 +90,17 @@ struct EmotionsView: View {
                                     .font(SetFont.setFontStyle(.regular, 12))
                                     .onTapGesture {
                                         withAnimation {
-                                            if let index = selectedSphere.firstIndex(of: sphere) {
-                                                selectedSphere.remove(at: index)
+                                            if let index = viewModel.selectedSphere.firstIndex(of: sphere) {
+                                                viewModel.selectedSphere.remove(at: index)
                                             } else {
-                                                selectedSphere.append(sphere)
+                                                viewModel.selectedSphere.append(sphere)
                                             }
                                         }
                                     }.modifier(FloatyEffect())
                             }
                             .frame(width: 80, height: 80)
                             .padding(.vertical, 5)
-                            .background(selectedSphere.contains(sphere) ? Color.brandPrimary : Color.gray.opacity(0.2))
+                            .background(viewModel.selectedSphere.contains(sphere) ? Color.brandPrimary : Color.gray.opacity(0.2))
                             .cornerRadius(15)
                         }
                         .padding(.horizontal, 5)

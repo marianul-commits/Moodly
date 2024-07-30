@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct WeekdayView: View {
+    let weekdays = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"]
+    let colors = Colors()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            GridStackView(rows: 1, columns: 7) { row, col in
+                Text(self.weekdays[col])
+                    .font(SetFont.setFontStyle(.regular, 16))
+            }
+        }.padding(.bottom, 20).background(colors.weekdayBackgroundColor)
     }
 }
 

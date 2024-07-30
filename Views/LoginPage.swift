@@ -38,9 +38,10 @@ struct LoginPage: View {
                         .opacity(showFields ? 1 : 0)
                         .animation(.easeInOut(duration: 1).delay(1.5), value: showFields)
                                  
-                    Button("Create Account") {
+                    Button("Continue") {
                     }
                     .padding(10)
+                    .frame(width: 150, height: 40)
                     .tint(.brandBlack)
                     .background(.brandGreen)
                     .clipShape(Capsule())

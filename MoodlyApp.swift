@@ -14,6 +14,6 @@ struct MoodlyApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: JournalItem.self)
+        .modelContainer(for: [JournalItem.self, MoodItem.self])
     }
 }
