@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom){
             TabView(selection: $selectedTab) {
-                HomeView()
+                HomeView(moodModelController: MoodModelController(), day: Day(date: Date()))
                     .tag(0)
                 
                CalendarView()

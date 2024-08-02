@@ -21,3 +21,15 @@ class Colors: ObservableObject {
     @Published var selectedBackgroundColor: Color = Color.orange
 
 }
+
+extension Colors {
+    var moodColors: [String: Color] {
+        return [
+            "happy": .yellow,
+            "relaxed": .purple,
+            "anxious": .green,
+            "sad": .blue,
+            "angry": .red
+        ]
+    }
+}

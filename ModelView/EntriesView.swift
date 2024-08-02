@@ -17,26 +17,13 @@ struct EntriesView: View {
         List{
             ForEach(entries) { entry in
                 NavigationLink(value: entry) {
-                    VStack(alignment: .leading) {
-                        Text(entry.title)
-                            .font(SetFont.setFontStyle(.medium, 22))
-                            .padding(.horizontal, 4)
-                            .padding(.vertical, 4)
-                        Text(entry.body)
-                            .font(SetFont.setFontStyle(.regular, 18))
-                            .lineLimit(3)
-                            .multilineTextAlignment(.leading)
-                            .frame(maxHeight: 200)
-                            .padding(.horizontal, 4)
-                            .padding(.vertical, 4)
-                        Text(entry.dateText)
-                            .padding(.horizontal, 4)
-                            .padding(.vertical, 4)
-                            .font(SetFont.setFontStyle(.thinItalic, 12))
-                    }
-                    
+                    EntriesViewModel(titles: entry.title, bodys: entry.body, moodzs: entry.mood, emotionsz: entry.emotions, dates: entry.date, moodModelController: MoodModelController(), day: Day(date: Date()))
                 }
-                
+                .listRowInsets(EdgeInsets(.init(top: 2, leading: 25, bottom: 2, trailing: 25)))
+                .listRowBackground(
+                    Color.background
+                        .cornerRadius(20)
+                    )
             }
             .onDelete(perform: deleteEntry)
             

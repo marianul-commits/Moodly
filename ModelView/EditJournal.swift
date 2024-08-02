@@ -11,7 +11,7 @@ import SwiftData
 struct EditJournal: View {
     
     @Bindable var entries: JournalItem
-    @ObservedObject var emotions: EmotionsViewModel
+    @ObservedObject var emotions = EmotionsViewModel()
     @State private var noteTitle: String = ""
     @State private var isShowingDetailView = false
     @State private var noteBody: String = ""

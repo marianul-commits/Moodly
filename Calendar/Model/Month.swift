@@ -121,5 +121,16 @@ struct Month {
         return arrayOfDays
     }
 
+    // Next month function
+    func nextMonth() -> Month {
+            let nextMonthDate = calendar.date(byAdding: .month, value: 1, to: startDate)!
+            return Month(startDate: nextMonthDate, selectableDays: selectableDays)
+        }
+
+        // Previous month function
+        func previousMonth() -> Month {
+            let previousMonthDate = calendar.date(byAdding: .month, value: -1, to: startDate)!
+            return Month(startDate: previousMonthDate, selectableDays: selectableDays)
+        }
 
 }

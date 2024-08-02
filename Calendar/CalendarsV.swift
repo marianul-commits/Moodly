@@ -13,37 +13,23 @@ struct CalendarsV: View {
     let monthsToDisplay: Int
     var selectableDays = false
     
-
+    
     init(start: Date, monthsToShow: Int, daysSelectable: Bool = false, moodController: MoodModelController) {
-    self.startDate = start
-    self.monthsToDisplay = monthsToShow
-    self.selectableDays = daysSelectable
-    self.moodModelController = moodController
+        self.startDate = start
+        self.monthsToDisplay = monthsToShow
+        self.selectableDays = daysSelectable
+        self.moodModelController = moodController
     }
-
+    
     public var body: some View {
         
         VStack {
-            ScrollView {
-                MonthView(moodModelController: moodModelController, month: Month(startDate: startDate, selectableDays: selectableDays))
-                if monthsToDisplay > 1 {
-                    ForEach(1..<self.monthsToDisplay) {
-                        MonthView(moodModelController: self.moodModelController, month: Month(startDate: self.nextMonth(currentMonth: self.startDate, add: $0), selectableDays: self.selectableDays))
-                    }
-                }
-            }
+            MonthView(moodModelController: moodModelController)
             Spacer()
         }
     }
-
-    func nextMonth(currentMonth: Date, add: Int) -> Date {
-        var components = DateComponents()
-        components.month = add
-        let next = Calendar.current.date(byAdding: components, to: currentMonth)!
-        return next
-    }
-
-
+    
+    
 }
 
 #Preview {

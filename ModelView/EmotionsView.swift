@@ -110,7 +110,7 @@ struct EmotionsView: View {
                 }
                 Spacer()
                 Button {
-                    
+//                    dismiss()
                 } label: {
                     HStack(alignment: .firstTextBaseline){
                         Text("Next")

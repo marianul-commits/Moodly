@@ -27,39 +27,21 @@ extension UIScreen {
     }
 }
 
-
-struct DayInfo: Identifiable {
-    var id = UUID()
-    var dayName: String
-    var date: String
-    var isToday: Bool
-    var isPast: Bool
-    var isFuture: Bool
-}
-
-
-func getLast7Days() -> [DayInfo] {
-    let dayFormatter = DateFormatter()
-    dayFormatter.dateFormat = "EEEEE"
-
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "d"
-
+func getLast7Days() -> [Day] {
     let calendar = Calendar.current
-    var dates = [DayInfo]()
+    var days = [Day]()
     
     for i in -3...3 {
         if let date = calendar.date(byAdding: .day, value: i, to: Date()) {
-            let dayString = dayFormatter.string(from: date)
-            let dateString = dateFormatter.string(from: date)
             let isToday = calendar.isDateInToday(date)
             let isPast = i < 0
             let isFuture = i > 0
-            dates.append(DayInfo(dayName: dayString, date: dateString, isToday: isToday, isPast: isPast, isFuture: isFuture))
+            let day = Day(date: date, today: isToday, disable: !isPast && !isFuture, selectable: true)
+            days.append(day)
         }
     }
     
-    return dates
+    return days
 }
 
 struct SetFont {
@@ -107,24 +89,6 @@ extension DateFormatter {
     }
 }
 
-extension Color {
-    static subscript(name: String) -> Color {
-        switch name {
-        case "Happy":
-            return Color.yellow
-        case "Relaxed":
-            return Color.purple
-        case "Anxious":
-            return Color.green
-        case "Sad":
-            return Color.blue
-        case "Angry":
-            return Color.red
-        default:
-            return Color.gray
-        }
-    }
-}
 // From Color to Hex
 extension Color {
     func toHex() -> String? {

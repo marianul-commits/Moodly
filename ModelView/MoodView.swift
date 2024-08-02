@@ -25,6 +25,10 @@ struct MoodView: View {
         ZStack{
             Color.background.ignoresSafeArea()
             VStack(spacing: 30) {
+                Capsule()
+                    .fill(.gray)
+                    .frame(width: 50, height: 10)
+                    .offset(y: -10)
                 Text("Add a Mood Entry")
                     .font(SetFont.setFontStyle(.bold, 24))
                 DatePicker("Select Date", selection: $selectedDate,in:...Date(), displayedComponents: .date)

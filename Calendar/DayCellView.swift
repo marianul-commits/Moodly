@@ -15,18 +15,12 @@ struct DayCellView: View {
         VStack {
             Text(day.dayName).frame(width: 32, height: 32)
                 .foregroundColor(day.textColor)
-            //            .background(day.backgroundColor)
-            //  .clipShape(RoundedRectangle(cornerRadius: 10))
                 .clipped()
-            //            .onTapGesture {
-            //                if self.day.disabled == false && self.day.selectableDays {
-            //                    self.day.isSelected.toggle()
-            //                }
-            //        }
-            
             moodText()
-            
-        }.background(day.backgroundColor).clipShape(RoundedRectangle(cornerRadius: 10)).onTapGesture {
+        }
+        .background(day.backgroundColor)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .onTapGesture {
             if self.day.disabled == false && self.day.selectableDays {
                 self.day.isSelected.toggle()
             }
@@ -34,34 +28,34 @@ struct DayCellView: View {
     }
     
     func moodText() -> some View {
-        var moodColor: Color = .clear // Default color if no mood is found
-        
+        let moodGradient = getMoodGradient(for: day, moodModelController: moodModelController)
+
+        return Capsule()
+            .fill(moodGradient)
+            .frame(width: 20, height: 10)
+    }
+    
+    func getMoodGradient(for day: Day, moodModelController: MoodModelController) -> LinearGradient {
+        let colors = Colors()
+        var moodColors: [Color] = []
+
         for m in moodModelController.moods {
             if m.monthString == day.monthString && m.dayAsInt == day.dayAsInt && m.year == day.year {
-                moodColor = {
-                    switch m.emotion.state {
-                    case .happy:
-                        return .yellow
-                    case .relaxed:
-                        return .purple
-                    case .anxious:
-                        return .green
-                    case .sad:
-                        return .blue
-                    case .angry:
-                        return .red
-                    }
-                }()
-                break // Exit the loop once we find a matching mood
+                if let color = colors.moodColors[m.emotion.state.rawValue] {
+                    moodColors.append(color)
+                }
             }
         }
-        
-        return Capsule()
-            .fill(moodColor)
-            .frame(width: 20, height: 10)
-            .opacity(moodColor == .clear ? 0 : 1) // Hide the circle if no mood was found
+
+        if moodColors.isEmpty {
+            moodColors = [Color.clear] // Use default color if no moods found
+        }
+
+        return LinearGradient(gradient: Gradient(colors: moodColors), startPoint: .topLeading, endPoint: .bottomTrailing)
     }
+
 }
+
 #Preview {
     DayCellView(moodModelController: MoodModelController(), day: Day(date: Date()))
 }
