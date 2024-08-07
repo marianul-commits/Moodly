@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MonthView: View {
     @ObservedObject var moodModelController: MoodModelController
-    @State private var month = Month(startDate: Date(), selectableDays: false)
+    @State private var month = Month(startDate: Date(), selectableDays: true)
     
     var body: some View {
         VStack {

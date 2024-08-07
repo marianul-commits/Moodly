@@ -15,7 +15,6 @@ struct EntriesViewModel: View {
     @State var emotionsz: [String] = []
     @State var dates = Date()
     @ObservedObject var moodModelController: MoodModelController
-    @ObservedObject var day: Day
     
     let dateFormatters = DateFormatter()
     
@@ -23,11 +22,12 @@ struct EntriesViewModel: View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
                 .foregroundStyle(Color.background)
-                .frame(width: (UIScreen.current?.bounds.width)! - 20, height: 150)
+                .frame(width: (UIScreen.current?.bounds.width)! - 30, height: 150)
                 .overlay(
             HStack{
                 Rectangle()
-                    .fill(moodColor())
+                    .fill(moodColor(for: dates))
+//                    .fill(.red)
                     .frame(width: 35, height: 150)
                     .roundedCorner(20, corners: [.topLeft, .bottomLeft])
                 VStack(alignment: .leading){
@@ -48,11 +48,13 @@ struct EntriesViewModel: View {
                         .padding(.horizontal, 5)
                         .foregroundStyle(.brandText)
                     HStack{
-                        Text("\(emotionsz)")
-                            .font(SetFont.setFontStyle(.regular, 12))
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 5)
-                            .foregroundStyle(.brandText)
+                        ForEach(emotionsz, id: \.self) { item in
+                            Text(item)
+                                .font(SetFont.setFontStyle(.regular, 12))
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 5)
+                                .foregroundStyle(.brandText)
+                        }
                         Spacer()
                         Text(dates.formatted(date: .abbreviated, time: .omitted))
                             .font(SetFont.setFontStyle(.regular, 12))
@@ -66,16 +68,23 @@ struct EntriesViewModel: View {
         }
     }
     
-    func moodColor() -> LinearGradient {
-        return getMoodGradient(for: day, moodModelController: moodModelController)
+    func moodColor(for date: Date) -> LinearGradient {
+        return getMoodGradient(for: date, moodModelController: moodModelController)
     }
 
-    func getMoodGradient(for day: Day, moodModelController: MoodModelController) -> LinearGradient {
+    func getMoodGradient(for date: Date, moodModelController: MoodModelController) -> LinearGradient {
         let colors = Colors()
         var moodColors: [Color] = []
 
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        
         for m in moodModelController.moods {
-            if m.monthString == day.monthString && m.dayAsInt == day.dayAsInt && m.year == day.year {
+            let moodComponents = calendar.dateComponents([.year, .month, .day], from: m.date)
+            
+            if components.year == moodComponents.year &&
+               components.month == moodComponents.month &&
+               components.day == moodComponents.day {
                 if let color = colors.moodColors[m.emotion.state.rawValue] {
                     moodColors.append(color)
                 }
@@ -92,7 +101,7 @@ struct EntriesViewModel: View {
 }
 
 #Preview {
-    EntriesViewModel(moodModelController: MoodModelController(), day: Day(date: Date()))
+    EntriesViewModel(moodModelController: MoodModelController())
 }
 
 
