@@ -4,6 +4,9 @@ Moodly is a personal project aimed at creating a mood tracking app similar to He
 
 ## Features
 
+### Home
+The user can quick add a mood from the home widget, see how many moods it tracked in total with a history of them, and have a quick glance at the past 3 days
+
 ### Journal
 Moodly allows users to quickly jot down their thoughts from throughout the day and assigning emotions to them
 
