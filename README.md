@@ -18,6 +18,6 @@ The app saves its values in two main ways, the Journal entries are saved using t
 
 ## Inspiration
 
-I've been inspired by multiple things, but two of the main sources of inspirations are 
-[Paul Hudson's SwifData project](https://www.hackingwithswift.com/quick-start/swiftdata/swiftdata-tutorial-building-a-complete-project)
+I've been inspired by multiple things, but two of the main sources of inspirations are\
+[Paul Hudson's SwifData project](https://www.hackingwithswift.com/quick-start/swiftdata/swiftdata-tutorial-building-a-complete-project)\
 [NelGlez - MoodDiary app](https://github.com/nelglez/MoodDiarySwiftUI/tree/master) - main source of inspiration and using his custom implementation of the plist saving structure
