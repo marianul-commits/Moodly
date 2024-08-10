@@ -10,113 +10,61 @@ import SwiftData
 
 struct ContentView: View {
     @State var selectedTab = 0
+    @State private var hideTabBar = false
+    @ObservedObject var moodModelController = MoodModelController()
     
     var body: some View {
-        ZStack(alignment: .bottom){
+        ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
-                HomeView(moodModelController: MoodModelController(), day: Day(date: Date()))
+                HomeView(moodModelController: moodModelController, day: Day(date: Date()))
                     .tag(0)
                 
-               CalendarView()
+                CalendarView(moodModelController: moodModelController)
                     .tag(1)
                 
-                JournalView()
+                JournalView(hideTabBar: $hideTabBar)
                     .tag(2)
                 
-                SettingsView()
+                SettingsView(moodModelController: moodModelController)
                     .tag(3)
             }
-            //        }
             
-            ZStack {
-                TabBarCustomization()
-                    .fill(Color.brandGreen.opacity(0.9))
-                    .frame(width: UIScreen.current!.bounds.width - 15, height: 65)
-                    .overlay(
-                        HStack(alignment: .lastTextBaseline) {
-                            Spacer()
-                            
-                            Button(action: {
-                                selectedTab = 0
-                            }) {
-                                VStack{
-                                    Image(systemName: "house.fill")
-                                        .padding(.vertical, 2)
-                                        .foregroundColor(selectedTab == 0 ? Color.brandPink : Color.white)
-                                    Text("Home")
-                                        .font(SetFont.setFontStyle(.regular, 15))
-                                        .tint(selectedTab == 0 ? Color.brandPink : Color.brandBlack)
-                                }
-                            }
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                selectedTab = 1
-                            }) {
-                                VStack{
-                                    Image(systemName: "calendar")
-                                        .padding(.vertical, 2)
-                                        .foregroundColor(selectedTab == 1 ? Color.brandPink : Color.white)
-                                    Text("Calendar")
-                                        .font(SetFont.setFontStyle(.regular, 15))
-                                        .tint(selectedTab == 1 ? Color.brandPink : Color.brandBlack)
-                                }
-                            }
-                            
-                            Spacer()
-                            Button(action: {
-                                // Action
-                            }) {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.brandTurqoise)
-                                        .frame(width: 55, height: 55)
-                                        .shadow(color: Color.green.opacity(0.4), radius: 10, x: 0, y: 0)
-                                    
-                                    Image(systemName: "plus")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 30))
-                                }
-                            }
-                            .offset(x: 0, y: -30)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                selectedTab = 2
-                            }) {
-                                VStack{
-                                    Image(systemName: "book.pages.fill")
-                                        .padding(.vertical, 2)
-                                        .foregroundColor(selectedTab == 2 ? Color.brandPink : Color.white)
-                                    Text("Journal")
-                                        .font(SetFont.setFontStyle(.regular, 15))
-                                        .tint(selectedTab == 2 ? Color.brandPink : Color.brandBlack)
-                                }
-                            }
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                selectedTab = 3
-                            }) {
-                                VStack{
-                                    Image(systemName: "gear")
-                                        .padding(.vertical, 2)
-                                        .foregroundColor(selectedTab == 3 ? Color.brandPink : Color.white)
-                                    Text("Settings")
-                                        .font(SetFont.setFontStyle(.regular, 15))
-                                        .tint(selectedTab == 3 ? Color.brandPink : Color.brandBlack)
-                                }
-                            }
-                            Spacer()
-                        }
-                    )
+            if !hideTabBar {
+                customTabBar
             }
+        }
+    }
+    
+    var customTabBar: some View {
+        TabBarCustomization()
+            .fill(Color.brandPrimary.opacity(0.8))
+            .frame(width: UIScreen.current!.bounds.width - 15, height: 65)
+            .overlay(
+                HStack(alignment: .lastTextBaseline, spacing: 20) {
+                    tabButton(tab: 0, imageName: "house.fill", text: "Home")
+                        .padding(.horizontal, 8)
+                    tabButton(tab: 1, imageName: "calendar", text: "Calendar")
+                        .padding(.horizontal, 8)
+                    tabButton(tab: 2, imageName: "book.pages.fill", text: "Journal")
+                        .padding(.horizontal, 8)
+                    tabButton(tab: 3, imageName: "gear", text: "Settings")
+                        .padding(.horizontal, 8)
+                }
+            )
             .background(.clear)
             .padding(.horizontal)
-            
+    }
+    
+    func tabButton(tab: Int, imageName: String, text: String) -> some View {
+        Button(action: { selectedTab = tab }) {
+            VStack {
+                Image(systemName: imageName)
+                    .padding(.vertical, 2)
+                    .foregroundColor(selectedTab == tab ? Color.brandPink : Color.white)
+                Text(text)
+                    .font(SetFont.setFontStyle(.regular, 15))
+                    .tint(selectedTab == tab ? Color.brandPink : Color.brandText)
+            }
         }
     }
 }

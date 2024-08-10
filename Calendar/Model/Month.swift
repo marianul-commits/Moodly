@@ -14,6 +14,7 @@ struct Month {
 
     var startDate: Date
     var selectableDays: Bool
+    var selectedDate: Date?
     var today = Date()
     var monthNameYear: String {
         self.monthHeader()

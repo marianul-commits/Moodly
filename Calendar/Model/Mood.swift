@@ -8,12 +8,22 @@
 import Foundation
 import SwiftUI
 
-enum EmotionState: String, Codable {
+enum EmotionState: String, Codable, CaseIterable {
     case happy
     case relaxed
     case anxious
     case sad
     case angry
+    
+    var color: MoodColor {
+        switch self {
+        case .happy: return .happyColor
+        case .relaxed: return .relaxedColor
+        case .anxious: return .anxiousColor
+        case .sad: return .sadColor
+        case .angry: return .angryColor
+        }
+    }
 }
 
 enum MoodColor: String, Codable {
@@ -49,11 +59,14 @@ struct Mood: Codable, Equatable, Identifiable {
     let emotion: Emotion
     var comment: String?
     let date: Date
+    let timeOfDay: TimeOfDay
     
-    init(emotion: Emotion, comment: String?, date: Date) {
+    init(id: UUID = UUID(), emotion: Emotion, comment: String?, date: Date, timeOfDay: TimeOfDay) {
+        self.id = id
         self.emotion = emotion
         self.comment = comment
         self.date = date
+        self.timeOfDay = timeOfDay
     }
     
     var dateString: String {
@@ -95,3 +108,9 @@ let dateFormatter: DateFormatter = {
     formatter.dateStyle = .short
     return formatter
 }()
+
+enum TimeOfDay: String, Codable, CaseIterable {
+    case morning = "Morning"
+    case noon = "Noon"
+    case evening = "Evening"
+}

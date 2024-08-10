@@ -28,45 +28,17 @@ struct SelectMood: View {
                                 .aspectRatio(contentMode: .fill)
                                 .onTapGesture {
                                     selectionText = moodArrayTxt[index]
+                                    saveMood()
+                                    dismiss()
                                 }
-                                .overlay(
-                                    Group {
-                                        if selectionText == moodArrayTxt[index] {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .resizable()
-                                                .frame(width: 30, height: 30)
-                                                .foregroundColor(.blue)
-                                                .offset(x: 50, y: -50) // Position the checkmark in the top-right corner
-                                        }
-                                    }
-                            )
                             Text(moodArrayTxt[index])
-                                .font(SetFont.setFontStyle(.medium, 18))
+                                .font(SetFont.setFontStyle(.medium, 20))
                                 .padding(.vertical, 2)
                         }
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
                 .frame(height: 300)
-                
-                
-                
-                Button {
-                    saveMood()
-                    dismiss()
-                } label: {
-                    HStack(alignment: .firstTextBaseline){
-                            Text("Next")
-                                .font(SetFont.setFontStyle(.medium, 18))
-                                .foregroundStyle(.brandBlack)
-                            Image(systemName: "arrow.right")
-                    }
-                    .frame(width: (UIScreen.current?.bounds.width)! - 60, height: 40)
-                    .background(Color.cyan)
-                    .tint(Color.brandBlack)
-                    .clipShape(Capsule())
-                    .padding()
-                }
             }
         }
     }
@@ -76,7 +48,3 @@ struct SelectMood: View {
     }
     
 }
-
-//#Preview {
-//    SelectMood()
-//}

@@ -16,18 +16,19 @@ class JournalItem {
     var body: String
     var date: Date = Date()
     var mood: String
+    var sphere: [String]
     var emotions: [String]
     
-    
-    init(id: UUID = UUID(), title: String = "", body: String = "", date: Date = .now, mood: String = "", emotions: [String] = []) {
+    init(id: UUID = UUID(), title: String = "", body: String = "", date: Date = .now, mood: String = "", sphere: [String] = [], emotions: [String] = []) {
         self.id = id
         self.title = title
         self.body = body
         self.date = date
         self.mood = mood
+        self.sphere = sphere
         self.emotions = emotions
     }
-    
+
     var dateText: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d yyyy, HH:mm"

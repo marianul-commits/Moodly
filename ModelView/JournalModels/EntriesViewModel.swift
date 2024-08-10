@@ -12,6 +12,7 @@ struct EntriesViewModel: View {
     @State var titles = ""
     @State var bodys = ""
     @State var moodzs = ""
+    @State var sphere: [String] = []
     @State var emotionsz: [String] = []
     @State var dates = Date()
     @ObservedObject var moodModelController: MoodModelController
@@ -22,13 +23,12 @@ struct EntriesViewModel: View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
                 .foregroundStyle(Color.background)
-                .frame(width: (UIScreen.current?.bounds.width)! - 30, height: 150)
+                .frame(width: (UIScreen.current?.bounds.width)! - 30, height: 170)
                 .overlay(
             HStack{
                 Rectangle()
                     .fill(moodColor(for: dates))
-//                    .fill(.red)
-                    .frame(width: 35, height: 150)
+                    .frame(width: 35, height: 170)
                     .roundedCorner(20, corners: [.topLeft, .bottomLeft])
                 VStack(alignment: .leading){
                     Spacer()
@@ -55,6 +55,13 @@ struct EntriesViewModel: View {
                                 .padding(.horizontal, 5)
                                 .foregroundStyle(.brandText)
                         }
+                    }
+                    HStack{
+                        Text(sphere.joined())
+                            .font(SetFont.setFontStyle(.regular, 12))
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 5)
+                            .foregroundStyle(.brandText)
                         Spacer()
                         Text(dates.formatted(date: .abbreviated, time: .omitted))
                             .font(SetFont.setFontStyle(.regular, 12))

@@ -14,6 +14,8 @@ class EmotionsViewModel: ObservableObject {
 
 struct EmotionsView: View {
     @ObservedObject var viewModel = EmotionsViewModel()
+    @Bindable var journalItem: JournalItem
+    @Environment(\.dismiss) private var dismiss
     
     let emotions = [
         ["Excited", "Relaxed", "Proud", "Hopeful"],
@@ -96,7 +98,7 @@ struct EmotionsView: View {
                                                 viewModel.selectedSphere.append(sphere)
                                             }
                                         }
-                                    }.modifier(FloatyEffect())
+                                    }
                             }
                             .frame(width: 80, height: 80)
                             .padding(.vertical, 5)
@@ -108,9 +110,12 @@ struct EmotionsView: View {
                     }
                     .padding(.horizontal, 5)
                 }
+                .modifier(FloatyEffect()) // Apply floaty effect
                 Spacer()
                 Button {
-//                    dismiss()
+                    saveEmotions()
+                    saveSphere()
+                    dismiss()
                 } label: {
                     HStack(alignment: .firstTextBaseline){
                         Text("Next")
@@ -125,9 +130,19 @@ struct EmotionsView: View {
                 .padding()
                 
             }
+            .toolbar(.hidden, for: .tabBar)
             .padding()
         }
     }
+    
+    private func saveEmotions() {
+        journalItem.emotions = viewModel.selectedEmotions
+    }
+    
+    private func saveSphere() {
+        journalItem.sphere = viewModel.selectedSphere
+    }
+    
 }
 
 // Modifier for floaty effect
@@ -147,9 +162,4 @@ struct FloatyEffect: ViewModifier {
                 value: verticalOffset
             )
     }
-}
-
-
-#Preview {
-    EmotionsView()
 }

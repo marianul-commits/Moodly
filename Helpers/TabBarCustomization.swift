@@ -24,18 +24,6 @@ struct TabBarCustomization: Shape {
         
         path.addLine(to: CGPoint(x: centerWidth - height * 2, y: 0))
         
-        // First curve down
-        path.addCurve(to: CGPoint(x: centerWidth, y: height),
-                      control1: CGPoint(x: centerWidth - 30, y: 0),
-                      control2: CGPoint(x: centerWidth - 35, y: height))
-        
-        // Second curve up
-        path.addCurve(to: CGPoint(x: centerWidth + height * 2, y: 0),
-                      control1: CGPoint(x: centerWidth + 35, y: height),
-                      control2: CGPoint(x: centerWidth + 30, y: 0))
-        
-        path.addLine(to: CGPoint(x: rect.width - cornerRadius, y: 0))
-        
         // Top-right corner
         path.addArc(center: CGPoint(x: rect.width - cornerRadius, y: cornerRadius),
                     radius: cornerRadius,

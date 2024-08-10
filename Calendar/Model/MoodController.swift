@@ -18,24 +18,46 @@ class MoodModelController: ObservableObject {
     
     
     //MARK: - CRUD Functions
-    func createMood(emotion: Emotion, comment: String?, date: Date) {
-
-        let newMood = Mood(emotion: emotion, comment: comment, date: date)
+    func createMood(emotion: Emotion, comment: String?, date: Date, timeOfDay: TimeOfDay) {
+        let newMood = Mood(emotion: emotion, comment: comment, date: date, timeOfDay: timeOfDay)
         
-        moods.append(newMood)
-        saveToPersistentStore()
-    
+        // Check if there are already have 3 moods for this day
+        let calendar = Calendar.current
+        let existingMoodsForDay = moods.filter { calendar.isDate($0.date, inSameDayAs: date) }
+        
+        if existingMoodsForDay.count < 3 {
+            // Check if a mood for this time of day already exists
+            if let existingIndex = existingMoodsForDay.firstIndex(where: { $0.timeOfDay == timeOfDay }) {
+                // Replace the existing mood
+                if let index = moods.firstIndex(where: { $0 == existingMoodsForDay[existingIndex] }) {
+                    moods[index] = newMood
+                }
+            } else {
+                // Add new mood
+                moods.append(newMood)
+            }
+            saveToPersistentStore()
+        }
     }
     
     func deleteMood(at offset: IndexSet) {
-        
         guard let index = Array(offset).first else { return }
-     print("INDEX: \(index)")
         moods.remove(at: index)
-        
         saveToPersistentStore()
     }
     
+    func clearMood(date: Date, timeOfDay: TimeOfDay) {
+        let calendar = Calendar.current
+        moods.removeAll { mood in
+            calendar.isDate(mood.date, inSameDayAs: date) && mood.timeOfDay == timeOfDay
+        }
+        saveToPersistentStore()
+    }
+    
+    func removeAll() {
+        moods.removeAll()
+        saveToPersistentStore()
+    }
     
     func updateMoodComment(mood: Mood, comment: String) {
         if let index = moods.firstIndex(of: mood) {
@@ -84,4 +106,5 @@ class MoodModelController: ObservableObject {
             print("error loading stars data: \(error)")
         }
     }
+    
 }

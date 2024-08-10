@@ -16,6 +16,8 @@ struct EditJournal: View {
     @State private var isShowingEmotion = false
     @State private var isShowingMood = false
     @State private var noteBody: String = ""
+    @State private var selectedMood: String? = nil
+    @State private var selectedEmotions: [String]? = nil
     @State private var placeholderText: String = "How are you feeling?"
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
@@ -25,8 +27,10 @@ struct EditJournal: View {
             HStack(spacing: 16) {
                 Button(action: {
                     isShowingMood = true
+                    selectedMood = entries.mood
                 }) {
-                    Text("Add Mood")
+                    Text("\(changeMoodText())")
+                        .foregroundStyle(.brandText)
                         .font(SetFont.setFontStyle(.medium, 20))
                         .frame(maxWidth: .infinity, minHeight: 100)
                         .background(Color.gray.opacity(0.3))
@@ -34,8 +38,11 @@ struct EditJournal: View {
                 }
                 Button(action: {
                     isShowingEmotion = true
+                    selectedEmotions = entries.emotions
                 }) {
-                    Text("Emotions")
+                    Text("\(changeEmotionsText())")
+                        .lineLimit(2)
+                        .foregroundStyle(.brandText)
                         .font(SetFont.setFontStyle(.medium, 20))
                         .frame(maxWidth: .infinity, minHeight: 100)
                         .background(Color.gray.opacity(0.3))
@@ -102,19 +109,20 @@ struct EditJournal: View {
         }
     }
     
+    func changeMoodText() -> String {
+        if selectedMood == nil {
+            return "Add Mood"
+        } else {
+            return "\(entries.mood)"
+        }
+    }
+    
+    func changeEmotionsText() -> String {
+        if selectedMood == nil {
+            return "Add Emotions"
+        } else {
+            return "\(entries.emotions.joined(separator: ", "))"
+        }
+    }
+    
 }
-
-
-//#Preview {
-//    do{
-//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: JournalItem.self, configurations: config)
-//        let example = JournalItem(id: UUID(), title: "This is a testy test", body: "TestyMcTest is testing the test while doing tests", date: .now, mood: "Meh", emotions: ["Bored"])
-//        let emotions = example.emotions
-//        return EditJournal(entries: example, emotions: emotions)
-//            .modelContainer(container)
-//    }
-//    catch{
-//        fatalError("OOpsie daisy")
-//    }
-//}

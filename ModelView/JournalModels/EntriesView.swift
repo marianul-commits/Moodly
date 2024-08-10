@@ -21,6 +21,7 @@ struct EntriesView: View {
                         titles: entry.title,
                         bodys: entry.body,
                         moodzs: entry.mood,
+                        sphere: entry.sphere,
                         emotionsz: entry.emotions,
                         dates: entry.date,
                         moodModelController: MoodModelController()
@@ -51,7 +52,3 @@ struct EntriesView: View {
         }
     }
 }
-
-//#Preview {
-//    EntriesView()
-//}

@@ -11,7 +11,6 @@ import SwiftUI
 class Day: ObservableObject {
 
     @Published var isSelected = false
-
     var selectableDays: Bool
     var dayDate: Date
     var dayName: String {
@@ -38,7 +37,6 @@ class Day: ObservableObject {
         }
     }
     
-    //Added
     var monthString: String {
 
     let dateFormatter1 = DateFormatter()
